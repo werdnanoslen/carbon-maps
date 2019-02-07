@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ChartsModule } from "@carbon/charts-angular";
+import { AngularOpenlayersModule } from "ngx-openlayers";
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { ChartsModule } from "@carbon/charts-angular";
   ],
   imports: [
     BrowserModule,
-    ChartsModule
+    ChartsModule,
+    AngularOpenlayersModule
   ],
   providers: [],
   bootstrap: [AppComponent]

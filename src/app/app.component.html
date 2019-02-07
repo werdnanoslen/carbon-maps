@@ -5,6 +5,15 @@
 	</h1>
 </div>
 
+<aol-map [width]="'500px'" [height]="'300'">
+    <aol-view [zoom]="2">
+        <aol-coordinate [x]="5.795122" [y]="45.210225" [srid]="'EPSG:4326'"></aol-coordinate>
+    </aol-view>
+    <aol-layer-tile>
+        <aol-source-osm></aol-source-osm>
+    </aol-layer-tile>
+</aol-map>
+
 <div style="margin: 30px;">
 	<n-bar-chart class="n-chart" [data]="barData" [options]="barOptions" width="100%" height="400" #barChart>
 	</n-bar-chart>
