@@ -10,16 +10,20 @@ import { defaultColors } from "@carbon/charts";
 
 export class AppComponent implements OnInit {
 
-  distance = 60;
-  points: Array<{ x: number; y: number; }> = [];
+  points: Array<{ x: number; y: number; size: number; color: number[] }> = [];
 
   ngOnInit() {
     // Generate random points
-    const nbPoints = 2000;
+    const nbPoints = 10;
     for (let i = 0; i < nbPoints; ++i) {
+      let r = this.getRandomInRange(0, 255, 1);
+      let g = this.getRandomInRange(0, 255, 1);
+      let b = this.getRandomInRange(0, 255, 1);
       this.points.push({
-        x : this.getRandomInRange(1.47, 1.51, 4),
-        y: this.getRandomInRange(43.545, 43.565, 4)
+        x: this.getRandomInRange(-122, -76, 4),
+        y: this.getRandomInRange(33, 48, 4),
+        size: this.getRandomInRange(1, 5, 1),
+        color: [r,g,b]
       });
     }
   }

@@ -5,12 +5,11 @@
 	</h1>
 </div>
 
-<aol-map [width]="'500px'" [height]="'100%'">
-  <aol-control-defaults></aol-control-defaults>
+<aol-map [width]="'750px'" [height]="'500px'">
   <aol-interaction-default></aol-interaction-default>
 
-  <aol-view [zoom]="14">
-    <aol-coordinate [x]="1.4886" [y]="43.5554" [srid]="'EPSG:4326'"></aol-coordinate>
+  <aol-view [zoom]="4">
+    <aol-coordinate [x]="-98" [y]="40" [srid]="'EPSG:4326'"></aol-coordinate>
   </aol-view>
 
   <aol-layer-tile [opacity]="1">
@@ -18,44 +17,22 @@
   </aol-layer-tile>
 
   <aol-layer-vector>
-    <aol-source-cluster [distance]="distance">
-      <aol-source-vector>
-        <aol-feature *ngFor="let p of points">
-          <aol-geometry-point>
-            <aol-coordinate [x]="p.x" [y]="p.y" [srid]="'EPSG:4326'"></aol-coordinate>
-          </aol-geometry-point>
-        </aol-feature>
-      </aol-source-vector>
-
-      <aol-style>
-        <aol-style-circle [radius]="10">
-          <aol-style-stroke [color]="'#fff'"></aol-style-stroke>
-          <aol-style-fill [color]="'#3399CC'"></aol-style-fill>
-        </aol-style-circle>
-        <aol-style-text [text]="'1'">
-          <aol-style-fill [color]="'#fff'"></aol-style-fill>
-        </aol-style-text>
-      </aol-style>
-
-    </aol-source-cluster>
-  </aol-layer-vector>
-
-  <aol-layer-vector>
     <aol-source-vector>
-      <aol-feature>
-        <aol-geometry-polygon>
-          <aol-collection-coordinates
-            [coordinates]="[[1.47, 43.545],[1.51, 43.545],[1.51, 43.565], [1.47, 43.565]]"
-            [srid]="'EPSG:4326'"
-          >
-          </aol-collection-coordinates>
-        </aol-geometry-polygon>
+      <aol-feature *ngFor="let p of points">
+        <aol-geometry-point>
+          <aol-coordinate [x]="p.x" [y]="p.y" [srid]="'EPSG:4326'"></aol-coordinate>
+        </aol-geometry-point>
+
         <aol-style>
-          <aol-style-stroke [color]="'red'" [width]="2"></aol-style-stroke>
-          <aol-style-fill [color]="[255,0,0,0.1]"></aol-style-fill>
+          <aol-style-circle [radius]="(4 * p.size) + 8">
+            <aol-style-stroke [color]="p.color" [width]="3"></aol-style-stroke>
+            <aol-style-fill [color]="'#ffffff80'"></aol-style-fill>
+          </aol-style-circle>
+          <aol-style-text [text]="p.size.toString()">
+            <aol-style-fill [color]="'#333'"></aol-style-fill>
+          </aol-style-text>
         </aol-style>
       </aol-feature>
-
     </aol-source-vector>
   </aol-layer-vector>
 </aol-map>
