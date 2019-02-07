@@ -1,3 +1,6 @@
-ul {
-  text-align: center;
+@import "~carbon-components/scss/globals/scss/styles.scss";
+
+#map, #zoom {
+  display: inline-block;
+  vertical-align: top;
 }

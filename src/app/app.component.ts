@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 
-import { defaultColors } from "@carbon/charts";
+import { defaultColors, BarChart } from "@carbon/charts";
 
 @Component({
   selector: 'app-root',
@@ -10,52 +10,38 @@ import { defaultColors } from "@carbon/charts";
 
 export class AppComponent implements OnInit {
 
-  points: Array<{ x: number; y: number; size: number; color: number[] }> = [];
+  @ViewChild("barChart") barChart;
 
-  ngOnInit() {
-    // Generate random points
-    const nbPoints = 10;
-    for (let i = 0; i < nbPoints; ++i) {
-      let r = this.getRandomInRange(0, 255, 1);
-      let g = this.getRandomInRange(0, 255, 1);
-      let b = this.getRandomInRange(0, 255, 1);
-      this.points.push({
-        x: this.getRandomInRange(-122, -76, 4),
-        y: this.getRandomInRange(33, 48, 4),
-        size: this.getRandomInRange(1, 5, 1),
-        color: [r,g,b]
-      });
-    }
-  }
-
-  getRandomInRange(from, to, fixed) {
-    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
-  }
-
-  title = "NGCodeSandbox";
-
+  points: Array<{
+    x: number;
+    y: number;
+    size: number;
+    color: number[];
+    name: string;
+  }> = [];
+  zoom: number = 4;
   barData = {
     labels: ["Qty", "More", "Sold", "Restocking", "Misc"],
     datasets: [
       {
-        label: "Dataset 1",
+        label: "Mammoth Distribution Center",
         backgroundColors: [defaultColors[0]],
-        data: [65000, -29123, -35213, 51213, 16932]
+        data: [65000, 29123, 35213, 51213, 16932]
       },
       {
-        label: "Dataset 2",
+        label: "Another place",
         backgroundColors: [defaultColors[1]],
-        data: [32432, -21312, -56456, -21312, 34234]
+        data: [32432, 21312, 56456, 21312, 34234]
       },
       {
-        label: "Dataset 3",
+        label: "The good place",
         backgroundColors: [defaultColors[2]],
-        data: [-12312, 23232, 34232, -12312, -34234]
+        data: [12312, 23232, 34232, 12312, 34234]
       },
       {
-        label: "Dataset 4",
+        label: "The bad place",
         backgroundColors: [defaultColors[3]],
-        data: [-32423, 21313, 64353, 24134, 32423]
+        data: [32423, 21313, 64353, 24134, 32423]
       }
     ]
   };
@@ -63,7 +49,7 @@ export class AppComponent implements OnInit {
   barOptions = {
     scales: {
       x: {
-        title: "2018 Annual Sales Figures"
+        title: "30 Days Dwell Time"
       },
       y: {
         formatter: axisValue => `${axisValue / 1000}k`,
@@ -80,4 +66,41 @@ export class AppComponent implements OnInit {
     legendClickable: true,
     containerResizable: true
   };
+
+  ngOnInit() {
+    // Generate random points
+    const nbPoints = 4;
+    for (let i = 0; i < nbPoints; ++i) {
+      let r = this.getRandomInRange(0, 255, 1);
+      let g = this.getRandomInRange(0, 255, 1);
+      let b = this.getRandomInRange(0, 255, 1);
+      this.points.push({
+        x: this.getRandomInRange(-122, -76, 4),
+        y: this.getRandomInRange(33, 48, 4),
+        size: this.getRandomInRange(1, 5, 1),
+        color: this.barData.datasets[i].backgroundColors[0],
+        name: this.barData.datasets[i].label
+      });
+    }
+  }
+
+  getRandomInRange(from, to, fixed) {
+    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+  }
+
+  zoomIn() {
+    this.zoom = Math.min(this.zoom + 1, 8);
+  }
+
+  zoomOut() {
+    this.zoom = Math.max(this.zoom - 1, 1);
+  }
+
+  handleEvent(event) {
+    const map = event.map;
+    const clickedFeatureId = map.forEachFeatureAtPixel(event.pixel, function(feature) {
+      return feature.getId();
+    });
+    this.barChart.chart.applyLegendFilter(clickedFeatureId);
+  }
 }

@@ -1,14 +1,7 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-	<h1>
-		Welcome to {{ title }}!
-	</h1>
-</div>
-
-<aol-map [width]="'750px'" [height]="'500px'">
+<aol-map [width]="'750px'" [height]="'500px'" id="map" (onClick)="handleEvent($event)">
   <aol-interaction-default></aol-interaction-default>
 
-  <aol-view [zoom]="4">
+  <aol-view [zoom]="zoom">
     <aol-coordinate [x]="-98" [y]="40" [srid]="'EPSG:4326'"></aol-coordinate>
   </aol-view>
 
@@ -18,7 +11,7 @@
 
   <aol-layer-vector>
     <aol-source-vector>
-      <aol-feature *ngFor="let p of points">
+      <aol-feature *ngFor="let p of points" id="{{p.name}}">
         <aol-geometry-point>
           <aol-coordinate [x]="p.x" [y]="p.y" [srid]="'EPSG:4326'"></aol-coordinate>
         </aol-geometry-point>
@@ -36,6 +29,11 @@
     </aol-source-vector>
   </aol-layer-vector>
 </aol-map>
+
+<div id="zoom">
+  <button [ibmButton]="secondary" [size]="sm" (click)="zoomIn()">+</button>
+  <button [ibmButton]="secondary" [size]="sm" (click)="zoomOut()">-</button>
+</div>
 
 
 <div style="margin: 30px;">
